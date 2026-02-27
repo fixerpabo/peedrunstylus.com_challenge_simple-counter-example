@@ -28,7 +28,7 @@ const localNitro = defineChain({
 });
 
 const scaffoldConfig = {
-  // The networks on which your DApp is live (Local Nitro + Arbitrum Sepolia)
+  // The networks on which your DApp is live (Local Nitro + Arbitrum Sepolia for live app)
   targetNetworks: [localNitro, chains.arbitrumSepolia],
 
   // The interval at which your front-end polls the RPC servers for new data

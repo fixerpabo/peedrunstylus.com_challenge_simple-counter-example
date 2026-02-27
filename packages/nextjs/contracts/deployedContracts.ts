@@ -1,14 +1,14 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 import { stylusCounterAbi } from "./stylusCounterAbi";
 const deployedContracts = {
-  // Local Nitro dev node
+  // Local Nitro (for local dev only)
   412346: {
     Counter: {
       address: "0xa6e41ffd769491a42a6e5ce453259b93983a22ef",
       abi: stylusCounterAbi as any,
     },
   },
-  // Arbitrum Sepolia (live)
+  // Arbitrum Sepolia (for live Vercel app)
   421614: {
     Counter: {
       address: "0xf3a1d067b31aa1f18efbdd9cc3ca2c88312a2231",
