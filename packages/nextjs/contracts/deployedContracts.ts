@@ -1,17 +1,15 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 import { stylusCounterAbi } from "./stylusCounterAbi";
+
+// Use contract address from env (set by running node / sync script) so it matches the running Nitro node
+const COUNTER_ADDRESS =
+  (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_CONTRACT_ADDRESS) ||
+  "0xa6e41ffd769491a42a6e5ce453259b93983a22ef";
+
 const deployedContracts = {
-  // Local Nitro (for local dev only)
   412346: {
     Counter: {
-      address: "0xa6e41ffd769491a42a6e5ce453259b93983a22ef",
-      abi: stylusCounterAbi as any,
-    },
-  },
-  // Arbitrum Sepolia (for live Vercel app)
-  421614: {
-    Counter: {
-      address: "0xf3a1d067b31aa1f18efbdd9cc3ca2c88312a2231",
+      address: COUNTER_ADDRESS,
       abi: stylusCounterAbi as any,
     },
   },

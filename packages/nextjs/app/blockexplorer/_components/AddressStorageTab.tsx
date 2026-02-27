@@ -2,11 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { Address, createPublicClient, http, toHex } from "viem";
-import { hardhat } from "viem/chains";
+
+const rpcUrl = (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_RPC_URL) || "http://127.0.0.1:8547";
+
+const localNitro = {
+  id: 412346,
+  name: "Local Nitro",
+  network: "nitro-local",
+  nativeCurrency: { decimals: 18, name: "Ethereum", symbol: "ETH" },
+  rpcUrls: { default: { http: [rpcUrl] }, public: { http: [rpcUrl] } },
+} as const;
 
 const publicClient = createPublicClient({
-  chain: hardhat,
-  transport: http(),
+  chain: localNitro,
+  transport: http(rpcUrl),
 });
 
 export const AddressStorageTab = ({ address }: { address: Address }) => {

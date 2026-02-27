@@ -6,6 +6,9 @@ import type { NextPage } from "next";
 import { createPublicClient, http } from "viem";
 import { useFetchBlocks } from "~~/hooks/scaffold-eth";
 
+const defaultRpcUrl = "http://127.0.0.1:8547";
+const rpcUrl = (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_RPC_URL) || defaultRpcUrl;
+
 // Create a custom chain configuration for local Arbitrum Nitro
 const localNitro = {
   id: 412346,
@@ -17,14 +20,14 @@ const localNitro = {
     symbol: "ETH",
   },
   rpcUrls: {
-    default: { http: ["process.env.NEXT_PUBLIC_RPC_URL"] },
-    public: { http: ["process.env.NEXT_PUBLIC_RPC_URL"] },
+    default: { http: [rpcUrl] },
+    public: { http: [rpcUrl] },
   },
 } as const;
 
 const publicClient = createPublicClient({
   chain: localNitro,
-  transport: http(),
+  transport: http(rpcUrl),
 });
 
 const BlockExplorer: NextPage = () => {
@@ -49,7 +52,7 @@ const BlockExplorer: NextPage = () => {
       <div className="container mx-auto my-10 p-4">
         <div className="alert alert-error">
           <p className="font-bold">Cannot connect to local Arbitrum Nitro node</p>
-          <p>Make sure your Nitro node is running at process.env.NEXT_PUBLIC_RPC_URL</p>
+          <p>Make sure your Nitro node is running (e.g. {rpcUrl}). Run: cd packages/stylus-demo && bash run-dev-node.sh</p>
         </div>
       </div>
     );

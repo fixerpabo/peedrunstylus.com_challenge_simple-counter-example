@@ -6,6 +6,8 @@ import { Hash, Transaction, TransactionReceipt, createPublicClient, formatEther,
 import { Address } from "~~/components/scaffold-eth";
 import { decodeTransactionData } from "~~/utils/scaffold-eth";
 
+const rpcUrl = (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_RPC_URL) || "http://127.0.0.1:8547";
+
 const client = createPublicClient({
   chain: {
     id: 412346,
@@ -17,11 +19,11 @@ const client = createPublicClient({
       symbol: "ETH",
     },
     rpcUrls: {
-      default: { http: ["process.env.NEXT_PUBLIC_RPC_URL"] },
-      public: { http: ["process.env.NEXT_PUBLIC_RPC_URL"] },
+      default: { http: [rpcUrl] },
+      public: { http: [rpcUrl] },
     },
   },
-  transport: http(),
+  transport: http(rpcUrl),
 });
 
 const TransactionComp = ({ txHash }: { txHash: Hash }) => {

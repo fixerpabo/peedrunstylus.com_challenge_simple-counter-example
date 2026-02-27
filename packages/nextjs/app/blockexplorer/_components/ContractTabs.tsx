@@ -7,8 +7,17 @@ import { AddressStorageTab } from "./AddressStorageTab";
 import { PaginationButton } from "./PaginationButton";
 import { TransactionsTable } from "./TransactionsTable";
 import { createPublicClient, http } from "viem";
-import { hardhat } from "viem/chains";
 import { useFetchBlocks } from "~~/hooks/scaffold-eth";
+
+const rpcUrl = (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_RPC_URL) || "http://127.0.0.1:8547";
+
+const localNitro = {
+  id: 412346,
+  name: "Local Nitro",
+  network: "nitro-local",
+  nativeCurrency: { decimals: 18, name: "Ethereum", symbol: "ETH" },
+  rpcUrls: { default: { http: [rpcUrl] }, public: { http: [rpcUrl] } },
+} as const;
 
 type AddressCodeTabProps = {
   bytecode: string;
@@ -21,8 +30,8 @@ type PageProps = {
 };
 
 const publicClient = createPublicClient({
-  chain: hardhat,
-  transport: http(),
+  chain: localNitro,
+  transport: http(rpcUrl),
 });
 
 export const ContractTabs = ({ address, contractData }: PageProps) => {

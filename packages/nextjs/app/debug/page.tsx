@@ -1,4 +1,4 @@
-import { ContractUI } from "./_components/contract/ContractUI";
+import { DebugContracts } from "./_components/DebugContracts";
 import type { NextPage } from "next";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -10,7 +10,7 @@ export const metadata = getMetadata({
 const Debug: NextPage = () => {
   return (
     <>
-      <ContractUI contractName="Counter" />
+      <DebugContracts />
     </>
   );
 };

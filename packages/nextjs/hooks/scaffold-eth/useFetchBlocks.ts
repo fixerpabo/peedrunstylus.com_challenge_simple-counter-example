@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Block, Hash, TransactionReceipt, createPublicClient, http } from "viem";
 
+const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || "http://127.0.0.1:8547";
+
 const publicClient = createPublicClient({
   chain: {
     id: 412346,
@@ -12,11 +14,11 @@ const publicClient = createPublicClient({
       symbol: "ETH",
     },
     rpcUrls: {
-      default: { http: ["process.env.NEXT_PUBLIC_RPC_URL"] },
-      public: { http: ["process.env.NEXT_PUBLIC_RPC_URL"] },
+      default: { http: [rpcUrl] },
+      public: { http: [rpcUrl] },
     },
   },
-  transport: http(),
+  transport: http(rpcUrl),
 });
 
 export const useFetchBlocks = () => {

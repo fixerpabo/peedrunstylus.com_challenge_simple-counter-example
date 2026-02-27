@@ -1,8 +1,8 @@
 {
   "network": "nitro-dev",
-  "cache_manager_address": "0x11B57FE348584f042E436c6Bf7c3c3deF171de49",
-  "contract_address": "0xa6e41ffd769491a42a6e5ce453259b93983a22ef",
-  "transaction_hash": "0x07e90569642b3c6287d0717a61c1b496ab8623056c276f99f8652afd32708c05",
+  "cache_manager_address": "0x525c2aBA45F66987217323E8a05EA400C65D06DC",
+  "contract_address": "0x4a2ba922052ba54e29c5417bc979daaf7d5fe4f4",
+  "transaction_hash": "0x57fd9f40ba1ae99fa9525fbee1489140845b48f5878296c38dba5b5c5b4fc8b7",
   "rpc_url": "http://127.0.0.1:8547",
-  "deployment_time": "2026-02-27T07:25:19Z"
+  "deployment_time": "2026-02-27T18:19:14Z"
 }
