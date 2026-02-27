@@ -1,0 +1,20 @@
+2026-02-27T08:38:55.100Z INFO  [stylus_tools::core::build] [0;0m[90mBuilding project with Cargo.toml version: 0.1.9[0;0m
+[0;0m[90mFile used for deployment hash: /home/admin_fixerpabo/speedrun_stylus_counter/packages/stylus-demo/Cargo.lock[0;0m
+[0;0m[90mFile used for deployment hash: /home/admin_fixerpabo/speedrun_stylus_counter/packages/stylus-demo/Cargo.toml[0;0m
+[0;0m[90mFile used for deployment hash: /home/admin_fixerpabo/speedrun_stylus_counter/packages/stylus-demo/examples/counter.rs[0;0m
+[0;0m[90mFile used for deployment hash: /home/admin_fixerpabo/speedrun_stylus_counter/packages/stylus-demo/rust-toolchain.toml[0;0m
+[0;0m[90mFile used for deployment hash: /home/admin_fixerpabo/speedrun_stylus_counter/packages/stylus-demo/src/lib.rs[0;0m
+[0;0m[90mFile used for deployment hash: /home/admin_fixerpabo/speedrun_stylus_counter/packages/stylus-demo/src/main.rs[0;0m
+[0;0m[90mproject metadata hash computed on deployment: "f5d6161a7c44bfcccd54fcedf83794c16f7a5fef5d1fc18b858ff09c55d418d5"[0;0m
+2026-02-27T08:38:55.546Z INFO  [stylus_tools::core::check] [0;0m[90mcontract size: [38;5;48;1m7.3 KB[0;0m[90m (7258 bytes)[0;0m
+2026-02-27T08:38:56.162Z INFO  [stylus_tools::core::activation] [0;0m[90mwasm data fee: [38;5;48;1m0.000076 ETH[0;0m [0;0m[90m(originally [38;5;48;1m0.000064 ETH[0;0m[0;0m[90m with [38;5;183;1m20%[0;0m[90m bump)[0;0m
+[0;0m[90mchecking whether the contract has a constructor...[0;0m
+2026-02-27T08:39:05.665Z INFO  [stylus_tools::core::deployment] [0;0m[90mdeployed code at address: [38;5;183;1m0xf3a1d067b31aa1f18efbdd9cc3ca2c88312a2231[0;0m[0;0m
+2026-02-27T08:39:05.665Z INFO  [stylus_tools::core::deployment] [0;0m[90mdeployment tx hash: [38;5;183;1m0xab4b827aa0e56fef5502764230f24e8c0b10288e291461c8016932e605864928[0;0m[0;0m
+2026-02-27T08:39:06.259Z INFO  [stylus_tools::core::activation] [0;0m[90mwasm data fee: [38;5;48;1m0.000076 ETH[0;0m [0;0m[90m(originally [38;5;48;1m0.000064 ETH[0;0m[0;0m[90m with [38;5;183;1m20%[0;0m[90m bump)[0;0m
+2026-02-27T08:39:12.196Z INFO  [stylus_tools::core::activation] [0;0m[90msuccessfully activated contract 0xf3a1d067b31aa1f18efbdd9cc3ca2c88312a2231 with tx [38;5;183;1m"cf8bd345331035b69b52b9edc91d7851ca713d65e48f75700be0abf88f3c2399"[0;0m[0;0m
+[38;5;48;1mNOTE:
+        We recommend running cargo stylus cache bid f3a1d067b31aa1f18efbdd9cc3ca2c88312a2231 0 to cache your activated contract in ArbOS.
+        Cached contracts benefit from cheaper calls.
+        To read more about the Stylus contract cache, see:
+        https://docs.arbitrum.io/stylus/how-tos/caching-contracts[0;0m

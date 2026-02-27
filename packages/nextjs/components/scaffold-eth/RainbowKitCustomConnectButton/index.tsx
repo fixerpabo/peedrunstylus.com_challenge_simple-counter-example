@@ -1,45 +1,80 @@
 "use client";
 
-// @refresh reset
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useAccount, useBalance, useDisconnect } from "wagmi";
 import { useNetworkColor } from "~~/hooks/scaffold-eth";
-import { useDevAccount } from "~~/hooks/scaffold-eth/useDevAccount";
+import { getTargetNetworks } from "~~/utils/scaffold-eth";
+import { NetworkOptions } from "./NetworkOptions";
 
 /**
- * Custom Wagmi Connect Button (watch balance + custom design)
+ * Custom connect button: when disconnected shows a clear "Connect Wallet" button;
+ * when connected shows address, balance, current network and a dropdown to switch network or disconnect.
  */
 export const RainbowKitCustomConnectButton = () => {
-  const networkColor = useNetworkColor();
-  const { balance, address } = useDevAccount();
+  const { address, isConnected, chain } = useAccount();
+  const { data: balanceData } = useBalance({ address });
+  const { disconnect } = useDisconnect();
+  const networkColor = useNetworkColor(chain?.id);
+  const targetNetworks = getTargetNetworks();
+  const isOnTargetNetwork = chain && targetNetworks.some(n => n.id === chain.id);
 
-  const formattedBalance = parseFloat(balance).toFixed(2);
+  if (!isConnected || !address) {
+    return (
+      <ConnectButton.Custom>
+        {({ openConnectModal }) => (
+          <button
+            type="button"
+            onClick={openConnectModal}
+            className="btn btn-primary btn-sm"
+          >
+            Connect Wallet
+          </button>
+        )}
+      </ConnectButton.Custom>
+    );
+  }
+
+  const formattedBalance = balanceData?.formatted
+    ? parseFloat(balanceData.formatted).toFixed(4)
+    : "0.0000";
 
   return (
-    <div className="flex items-center">
-      <div className="flex items-center bg-base-200 rounded-lg px-3 py-2 shadow-md">
-        <div className="flex flex-col items-start">
-          <span className="text-sm font-bold mb-1">Dev Account</span>
-          <div className="flex items-center gap-1">
-            <span className="text-lg font-medium">{formattedBalance} ETH</span>
-            <div
-              className="tooltip tooltip-bottom tooltip-primary relative"
-              data-tip={address?.slice(0, 20) + "..." + address?.slice(-8)}
-            >
-              <span className="text-sm text-base-content/70 hover:text-base-content cursor-pointer">
-                {address?.slice(0, 6)}...{address?.slice(-4)}
-              </span>
-              <style jsx>{`
-                .tooltip:before {
-                  right: 0;
-                  left: auto;
-                  transform: translateX(0);
-                }
-              `}</style>
-            </div>
-          </div>
-          <span className="text-xs mt-1" style={{ color: networkColor }}>
-            Local Nitro
+    <div className="flex items-center gap-2">
+      {!isOnTargetNetwork && (
+        <span className="text-xs font-medium text-error bg-error/10 px-2 py-1 rounded">
+          Wrong network
+        </span>
+      )}
+      <div className="dropdown dropdown-end">
+        <label
+          tabIndex={0}
+          className="btn btn-primary btn-sm dropdown-toggle gap-2 px-3"
+        >
+          <span style={{ color: networkColor }} className="font-medium">
+            {chain?.name ?? "Unknown"}
           </span>
-        </div>
+          <span className="text-base-content/70">
+            {address.slice(0, 6)}...{address.slice(-4)}
+          </span>
+          <span className="text-xs">{formattedBalance} ETH</span>
+          <ChevronDownIcon className="h-4 w-4" />
+        </label>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu p-2 mt-2 shadow-lg bg-base-200 rounded-box w-56 gap-1 z-[100]"
+        >
+          <NetworkOptions />
+          <li>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm justify-start text-error"
+              onClick={() => disconnect()}
+            >
+              Disconnect
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   );

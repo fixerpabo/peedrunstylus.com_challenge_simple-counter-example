@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { ethers } from "ethers";
 import { performance } from "perf_hooks";
 
@@ -8,7 +9,11 @@ const RPC_URL = process.env.RPC_URL || "http://localhost:8547";
 const PRIVATE_KEY =
   process.env.PRIVATE_KEY || "0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659";
 
-const provider = new ethers.JsonRpcProvider(RPC_URL);
+const provider = new ethers.JsonRpcProvider(RPC_URL, {
+  chainId: 412346,
+  name: "localnitro",
+  ensAddress: null,
+});
 const signer = new ethers.Wallet(PRIVATE_KEY, provider);
 
 // ArbWasm precompile for program init gas measurements

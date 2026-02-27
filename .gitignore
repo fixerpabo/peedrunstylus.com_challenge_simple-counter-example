@@ -26,7 +26,3 @@ dist
 # env
 .env
 .env.local
-
-# deployment logs (may contain tx/address info)
-packages/stylus-demo/cargo-sepolia-deploy.log
-packages/stylus-demo/sepolia-deploy.log
