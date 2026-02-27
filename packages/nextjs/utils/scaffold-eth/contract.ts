@@ -57,7 +57,10 @@ const deepMergeContracts = <L extends Record<PropertyKey, any>, E extends Record
   return result as MergeDeepRecord<AddExternalFlag<L>, AddExternalFlag<E>, { arrayMergeMode: "replace" }>;
 };
 
-const contractsData = deepMergeContracts(deployedContractsData, externalContractsData);
+const contractsData = deepMergeContracts(
+  (deployedContractsData ?? {}) as Record<PropertyKey, any>,
+  (externalContractsData ?? {}) as Record<PropertyKey, any>,
+);
 
 export type InheritedFunctions = { readonly [key: string]: string };
 

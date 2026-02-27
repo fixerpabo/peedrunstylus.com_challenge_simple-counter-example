@@ -1,23 +1,29 @@
 import { ethers } from "ethers";
 import { performance } from "perf_hooks";
 
-const STYLUS_CONTRACT_ADDRESS = "0xa6e41ffd769491a42a6e5ce453259b93983a22ef";
-const RPC_URL = "http://localhost:8547"; // typical for Nitro devnet
-const PRIVATE_KEY = "0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659";
+// Defaults are for local Nitro; override with env vars when using Sepolia
+const STYLUS_CONTRACT_ADDRESS =
+  process.env.STYLUS_CONTRACT_ADDRESS || "0xa6e41ffd769491a42a6e5ce453259b93983a22ef";
+const RPC_URL = process.env.RPC_URL || "http://localhost:8547";
+const PRIVATE_KEY =
+  process.env.PRIVATE_KEY || "0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659";
 
 const provider = new ethers.JsonRpcProvider(RPC_URL);
 const signer = new ethers.Wallet(PRIVATE_KEY, provider);
 
 // ArbWasm precompile for program init gas measurements
-const arbWasmAddress = "0x0000000000000000000000000000000000000071";
+const arbWasmAddress = "0x000000000000000000000000000000000000006B";
 const arbWasmAbi = ["function programInitGas(address) view returns (uint64, uint64)"];
 
 // ArbWasmCache precompile for cache management
+const arbWasmCacheAddress = "0x000000000000000000000000000000000000006C";
 const arbWasmCacheAbi = [
   "function evictCodehash(bytes32) external",
   "function cacheProgram(address) external",
   "function codehashIsCached(bytes32) view returns (bool)",
 ];
+
+const cache = new ethers.Contract(arbWasmCacheAddress, arbWasmCacheAbi, signer);
 
 async function getCodehash(addr) {
   const bytecode = await provider.getCode(addr);
@@ -26,7 +32,7 @@ async function getCodehash(addr) {
 
 async function main() {
   const arbWasm = new ethers.Contract(arbWasmAddress, arbWasmAbi, provider);
-  const cache = new ethers.Contract("0x0000000000000000000000000000000000000072", arbWasmCacheAbi, signer);
+
   const codehash = await getCodehash(STYLUS_CONTRACT_ADDRESS);
 
   console.log("📋 Program Init Gas Analysis");
@@ -48,7 +54,18 @@ async function main() {
   console.log(`\n❄️ COLD CALL (Without Cache)`);
   console.log("⏱️ Measuring program init gas and latency...");
   let start = performance.now();
-  const [coldInitGas, coldCachedGas] = await arbWasm.programInitGas(STYLUS_CONTRACT_ADDRESS);
+  let coldInitGas;
+  let coldCachedGas;
+  try {
+    [coldInitGas, coldCachedGas] = await arbWasm.programInitGas(STYLUS_CONTRACT_ADDRESS);
+  } catch (error) {
+    console.log(
+      "❌ ArbWasm programInitGas call reverted on this network. " +
+        "Make sure you're pointing RPC_URL / STYLUS_CONTRACT_ADDRESS to Arbitrum Sepolia if you want real measurements.",
+    );
+    console.log("Error:", error.message || error);
+    return;
+  }
   let end = performance.now();
   const coldLatency = end - start;
 

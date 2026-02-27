@@ -18,6 +18,7 @@
     "postinstall": "husky",
     "precommit": "lint-staged",
     "start": "yarn workspace @se-2/nextjs dev",
+    "test": "yarn next:check-types && yarn next:lint",
     "vercel": "yarn workspace @se-2/nextjs vercel",
     "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo"
   },
